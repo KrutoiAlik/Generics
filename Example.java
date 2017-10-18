@@ -1,9 +1,13 @@
 package task05;
 
-public class Example {
-    GroupStudents gr;
+import java.io.IOException;
 
-    public Example(GroupStudents<?> gr){
-        this.gr = gr;
+public class Example extends GroupStudents<Number>{
+
+    private final GroupStudents t;
+
+    public Example(GroupStudents t) throws IOException {
+        super(Task05ForEnumsAndParametrization.Subjects.LITERATURE, "");
+        this.t = t;
     }
 }

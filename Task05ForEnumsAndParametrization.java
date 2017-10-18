@@ -33,24 +33,27 @@ public class Task05ForEnumsAndParametrization {
         }
     }
 
-    static HashMap<Subjects, ArrayList<GroupStudents>> enumGroups = new HashMap<>();
+    static HashMap<Subjects, ArrayList<? extends GroupStudents<? extends Number>>> enumGroups = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
+
+        /**
+         * Создание бланка (Предмет, Группа)
+         */
         init();
-        enumGroups.get(Subjects.LITERATURE).add(initGroup(Subjects.LITERATURE, new File("Example.txt")));
-        ArrayList<GroupStudents> set = enumGroups.get(Subjects.LITERATURE);
-        for (Object s : set.get(0).journalOfGroup.keySet()) System.out.println(((Student) s).getName());
+
+        Subjects s = Subjects.LITERATURE;
+        enumGroups.get(s).add(initGroup(s, new File("Example.txt")));
+
+        ArrayList<? extends GroupStudents> set = enumGroups.get(Subjects.LITERATURE);
+        for (Object o : set.get(0).journalOfGroup.keySet()) System.out.println(((Student) o).getName());
     }
 
-    static GroupStudents initGroup(Subjects s, File group) throws IOException {
-        return new GroupStudents(s, path + group.getPath());
+    static GroupStudents<? extends Number> initGroup(Subjects s, File group) throws IOException {
+        return new GroupStudents(s, "" + group.getPath());
     }
 
-    static void init() {
-        for (Subjects s : Subjects.values())
-            if (s.isInt())
-                enumGroups.put(s, new ArrayList<GroupStudents<Integer>>());
-            else
-                enumGroups.put(s, new ArrayList<GroupStudents<Double>>());
+    static <T extends Number> void init() {
+        for (Subjects s : Subjects.values()) enumGroups.put(s, new ArrayList<GroupStudents<T>>());
     }
 }
